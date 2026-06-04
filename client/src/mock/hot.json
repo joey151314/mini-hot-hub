@@ -1,0 +1,56 @@
+[
+  {
+    "source": "weibo",
+    "sourceName": "微博热搜",
+    "listName": "热搜榜",
+    "updatedAt": "2026-06-04T10:30:00.000Z",
+    "items": [
+      {"rank": 1, "title": "某明星官宣恋情", "heat": "890万", "url": "https://weibo.com/"},
+      {"rank": 2, "title": "科技新品发布会", "heat": "560万", "url": "https://weibo.com/"},
+      {"rank": 3, "title": "世界杯预选赛", "heat": "420万", "url": "https://weibo.com/"},
+      {"rank": 4, "title": "新电影上映", "heat": "380万", "url": "https://weibo.com/"},
+      {"rank": 5, "title": "天气预警", "heat": "310万", "url": "https://weibo.com/"},
+      {"rank": 6, "title": "股市行情分析", "heat": "280万", "url": "https://weibo.com/"},
+      {"rank": 7, "title": "综艺节目开播", "heat": "250万", "url": "https://weibo.com/"},
+      {"rank": 8, "title": "教育政策更新", "heat": "220万", "url": "https://weibo.com/"},
+      {"rank": 9, "title": "健康养生知识", "heat": "190万", "url": "https://weibo.com/"},
+      {"rank": 10, "title": "旅游攻略分享", "heat": "160万", "url": "https://weibo.com/"}
+    ]
+  },
+  {
+    "source": "zhihu",
+    "sourceName": "知乎热榜",
+    "listName": "热榜",
+    "updatedAt": "2026-06-04T10:25:00.000Z",
+    "items": [
+      {"rank": 1, "title": "如何看待最近的科技发展趋势？", "heat": "120万", "url": "https://zhihu.com/"},
+      {"rank": 2, "title": "年轻人的职业选择", "heat": "98万", "url": "https://zhihu.com/"},
+      {"rank": 3, "title": "人工智能的未来", "heat": "87万", "url": "https://zhihu.com/"},
+      {"rank": 4, "title": "房价走势分析", "heat": "76万", "url": "https://zhihu.com/"},
+      {"rank": 5, "title": "教育内卷现象", "heat": "65万", "url": "https://zhihu.com/"},
+      {"rank": 6, "title": "职场经验分享", "heat": "54万", "url": "https://zhihu.com/"},
+      {"rank": 7, "title": "读书推荐", "heat": "43万", "url": "https://zhihu.com/"},
+      {"rank": 8, "title": "健身打卡", "heat": "32万", "url": "https://zhihu.com/"},
+      {"rank": 9, "title": "美食探店", "heat": "21万", "url": "https://zhihu.com/"},
+      {"rank": 10, "title": "宠物饲养", "heat": "10万", "url": "https://zhihu.com/"}
+    ]
+  },
+  {
+    "source": "bilibili",
+    "sourceName": "B站热搜",
+    "listName": "全站排行榜",
+    "updatedAt": "2026-06-04T10:20:00.000Z",
+    "items": [
+      {"rank": 1, "title": "年度游戏大作发布", "heat": "680万", "url": "https://bilibili.com/"},
+      {"rank": 2, "title": "动画新番开播", "heat": "520万", "url": "https://bilibili.com/"},
+      {"rank": 3, "title": "UP主自制短剧", "heat": "450万", "url": "https://bilibili.com/"},
+      {"rank": 4, "title": "科技数码测评", "heat": "380万", "url": "https://bilibili.com/"},
+      {"rank": 5, "title": "美食制作教程", "heat": "320万", "url": "https://bilibili.com/"},
+      {"rank": 6, "title": "舞蹈翻跳", "heat": "260万", "url": "https://bilibili.com/"},
+      {"rank": 7, "title": "知识科普", "heat": "200万", "url": "https://bilibili.com/"},
+      {"rank": 8, "title": "音乐翻唱", "heat": "150万", "url": "https://bilibili.com/"},
+      {"rank": 9, "title": "生活vlog", "heat": "100万", "url": "https://bilibili.com/"},
+      {"rank": 10, "title": "手办开箱", "heat": "80万", "url": "https://bilibili.com/"}
+    ]
+  }
+]
