@@ -41,12 +41,8 @@ export function useHotList(): UseHotListReturn {
       }
     } catch {
       setError('网络请求失败，请检查网络连接')
-      // 使用空数组，让各个卡片显示错误状态
-      setData([
-        { source: 'weibo', sourceName: '微博', listName: '热搜榜', items: [], updatedAt: new Date().toISOString(), error: true, message: '加载失败' },
-        { source: 'zhihu', sourceName: '知乎', listName: '热榜', items: [], updatedAt: new Date().toISOString(), error: true, message: '加载失败' },
-        { source: 'bilibili', sourceName: 'B站', listName: '热搜榜', items: [], updatedAt: new Date().toISOString(), error: true, message: '加载失败' }
-      ])
+      // 清空数据，让各个卡片显示错误状态
+      setData([])
     } finally {
       setLoading(false)
     }

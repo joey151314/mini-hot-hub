@@ -8,7 +8,7 @@ interface HotCardProps {
 }
 
 function HotCard({ platform, loading = false, error = false, onRetry }: HotCardProps) {
-  const keywords = ['教育', '人工智能']
+  const keywords = ['教育', '人工智能', '高考', '中考', '大学', '毕业', '考研', '考公']
   
   const containsKeyword = (title: string) => {
     return keywords.some(keyword => 
@@ -26,7 +26,7 @@ function HotCard({ platform, loading = false, error = false, onRetry }: HotCardP
     return containsKeyword(title) ? `${baseClass} highlight` : baseClass
   }
 
-  const getTimeAgo = (updatedAt: string) => {
+  const formatRelativeTime = (updatedAt: string) => {
     const now = new Date()
     const updated = new Date(updatedAt)
     const minutes = Math.floor((now.getTime() - updated.getTime()) / 60000)
@@ -34,7 +34,13 @@ function HotCard({ platform, loading = false, error = false, onRetry }: HotCardP
     if (minutes < 60) return `${minutes} 分钟前`
     const hours = Math.floor(minutes / 60)
     if (hours < 24) return `${hours} 小时前`
-    return `${Math.floor(hours / 24)} 天前`
+    return updated.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   }
 
   // Loading 状态
@@ -89,7 +95,7 @@ function HotCard({ platform, loading = false, error = false, onRetry }: HotCardP
           <p>暂无数据</p>
         </div>
         <div className="card-footer">
-          <span>更新于 {getTimeAgo(platform.updatedAt)}</span>
+          <span>更新于 {formatRelativeTime(platform.updatedAt)}</span>
         </div>
       </div>
     )
@@ -103,23 +109,41 @@ function HotCard({ platform, loading = false, error = false, onRetry }: HotCardP
         <span className="list-name">{platform.listName}</span>
       </div>
       <ul className="hot-list">
-        {platform.items.map((item) => (
-          <li key={item.rank} className={getItemClass(item.title)}>
-            <span className="rank">{item.rank}</span>
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={getTitleClass(item.title)}
-            >
-              {item.title}
-            </a>
-            {item.heat && <span className="hot-heat">{item.heat}</span>}
-          </li>
-        ))}
+        {platform.items.map((item) => {
+          // 判断 url 是否为有效链接（以 "http" 开头）
+          const hasValidUrl = item.url && item.url !== '#' && item.url.startsWith('http')
+          
+          return (
+            <li key={item.rank} className={getItemClass(item.title)}>
+              <span className="rank">{item.rank}</span>
+              {hasValidUrl ? (
+                // 有效链接：在新标签页打开
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={getTitleClass(item.title)}
+                >
+                  {item.title}
+                </a>
+              ) : (
+                // 无效链接（#）：阻止默认跳转，显示提示
+                <a
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                  title="暂无链接"
+                  className={getTitleClass(item.title)}
+                >
+                  {item.title}
+                </a>
+              )}
+              {item.heat && <span className="hot-heat">{item.heat}</span>}
+            </li>
+          )
+        })}
       </ul>
       <div className="card-footer">
-        <span>更新于 {getTimeAgo(platform.updatedAt)}</span>
+        <span>更新于 {formatRelativeTime(platform.updatedAt)}</span>
       </div>
     </div>
   )
