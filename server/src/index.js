@@ -235,28 +235,44 @@ app.get('/api/hot/bilibili', async (req, res) => {
   }
 })
 
+// 带超时的 Promise 包装函数
+function withTimeout(promise, timeoutMs, name) {
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      console.error(`[${name}] Request timeout after ${timeoutMs}ms`)
+      reject(new Error(`${name} timeout`))
+    }, timeoutMs)
+  })
+  return Promise.race([promise, timeoutPromise])
+}
+
 // 聚合热榜
 app.get('/api/hot', async (req, res) => {
+  console.log('[/api/hot] handler started')
+  
   const cacheKey = 'hot:all'
   const refresh = req.query.refresh === '1'
+  const timeoutMs = 10000 // 10秒超时
   
   if (!refresh) {
     const cached = getCache(cacheKey)
     if (cached) {
-      console.log(`[cache hit] GET ${req.path}`)
+      console.log(`[/api/hot] cache hit`)
       return res.json(cached)
     }
   }
   
-  console.log(`[cache miss] GET ${req.path}`)
+  console.log(`[/api/hot] cache miss, fetching real data`)
   
   try {
-    // 并行调用三个平台真实服务获取数据
+    // 并行调用三个平台真实服务获取数据，每个请求设置10秒超时
     const [weiboData, zhihuData, bilibiliData] = await Promise.all([
-      fetchWeiboHot(),
-      fetchZhihuHot(),
-      fetchBilibiliHot()
+      withTimeout(fetchWeiboHot(), timeoutMs, 'Weibo'),
+      withTimeout(fetchZhihuHot(), timeoutMs, 'Zhihu'),
+      withTimeout(fetchBilibiliHot(), timeoutMs, 'Bilibili')
     ])
+    
+    console.log('[/api/hot] all fetches completed successfully')
     
     const data = {
       platforms: [weiboData, zhihuData, bilibiliData]
@@ -264,13 +280,15 @@ app.get('/api/hot', async (req, res) => {
     
     if (!refresh) {
       setCache(cacheKey, data)
+      console.log('[/api/hot] data cached')
     } else {
-      console.log(`[refresh] GET ${req.path}`)
+      console.log('[/api/hot] refresh mode, skipping cache')
     }
     
     res.json(data)
+    console.log('[/api/hot] response sent successfully')
   } catch (error) {
-    console.error(`[Hot] Fetch error in /api/hot: ${error.message}`)
+    console.error(`[/api/hot] Fetch error: ${error.message}`, error.stack)
     // 获取失败时，返回错误信息但保留其他平台数据
     const data = {
       platforms: [
@@ -304,6 +322,7 @@ app.get('/api/hot', async (req, res) => {
       ]
     }
     res.json(data)
+    console.log('[/api/hot] error response sent')
   }
 })
 
