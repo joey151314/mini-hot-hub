@@ -5,6 +5,10 @@ import { fetchWeiboHot } from '../services/weibo.js'
 import { fetchZhihuHot } from '../services/zhihu.js'
 import { fetchBilibiliHot } from '../services/bilibili.js'
 
+// 全局错误捕获
+process.on('uncaughtException', (err) => console.error('FATAL ERROR:', err));
+process.on('unhandledRejection', (reason) => console.error('UNHANDLED REJECTION:', reason));
+
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -20,7 +24,14 @@ app.use((req, res, next) => {
   next()
 })
 
+// 测试路由
+app.get('/test', (req, res) => {
+  console.log('[/test] received');
+  res.send('OK');
+});
+
 app.get('/api/health', (req, res) => {
+  console.log('[/api/health] handler entered');
   res.json({ ok: true })
 })
 
@@ -308,6 +319,12 @@ app.get('/', (req, res) => {
   res.send('OK')
 })
 
+// 错误处理中间件
+app.use((err, req, res, next) => {
+  console.error('EXPRESS ERROR:', err);
+  res.status(500).json({ error: err.message });
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
+  console.log(`Server successfully started on port ${PORT}`)
 })
